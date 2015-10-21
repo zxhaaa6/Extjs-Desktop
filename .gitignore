@@ -50,4 +50,4 @@ node_modules/
 .svn/
 .c9/
 _tmp/
-BPMN/
+logs/
