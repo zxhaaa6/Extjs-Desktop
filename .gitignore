@@ -56,3 +56,4 @@ _tmp/
 logs/
 public/lib/
 public/images/
+model/initDatabase/
