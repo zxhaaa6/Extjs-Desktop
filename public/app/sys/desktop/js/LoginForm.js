@@ -24,11 +24,6 @@ Ext.define('com.sys.desktop.LoginForm', {
 				fieldCls: 'login-tip-cls login-tip-common',
 				value: '点击登录名录入框，可选择最近10个登录用户。' //'请输入用户名和密码，并选择所属角色进行登录。',
 			}, {
-				xtype: 'textfield',
-				hidden: true,
-				name: 'LOGIN_ID',
-				value: ''
-			}, {
 				xtype: 'combo',
 				fieldLabel: '',
 				style: 'margin-bottom: 10px;',
@@ -48,7 +43,7 @@ Ext.define('com.sys.desktop.LoginForm', {
 				minChars: 0,
 				fieldCls: 'login-user-cls',
 				store: new Ext.data.SimpleStore({
-					fields: ['value', 'text'],
+					fields: ['name'],
 					data: ''
 				}),
 				listeners: {
@@ -87,7 +82,7 @@ Ext.define('com.sys.desktop.LoginForm', {
 				valueField: 'id',
 				displayField: 'name',
 				store: new Ext.data.Store({
-					fields: ['id', 'name', 'userName', 'loginId'],
+					fields: ['id', 'name', 'userName'],
 					proxy: {
 						type: 'ajax',
 						url: '',
@@ -183,5 +178,17 @@ Ext.define('com.sys.desktop.LoginForm', {
 		});
 		me.callParent();
 
+	},
+
+	selectRoleByName: function(_this, user) {
+		var me = this;
+		var role = Ext.getCmp('role');
+		if (user != null && user.length != 0) {
+			role.getStore().proxy.url = webRoot + '/sys/roleByUser/' + user;
+			role.clearValue();
+			role.getStore().load();
+		} else {
+			role.clearValue();
+		}
 	}
 });

@@ -2,7 +2,7 @@ doctype html
 html
    head
       meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
-      title
+      title #{title}
       link(rel='stylesheet', type='text/css', href='/lib/extjs/resources/css/ext-all-neptune.css')
       link(rel='stylesheet', type='text/css', href='/lib/extjs/ux/portal/portal.css')
       link(rel='stylesheet', type='text/css', href='/lib/extjs/ux/grid/css/GridFilters.css')
@@ -13,6 +13,32 @@ html
       script(type='text/javascript', src='/lib/extjs/ext-theme-neptune.js')
       script(type='text/javascript', src='/lib/DateTimePicker.js')
       script(type='text/javascript', src='/lib/math-uuid.js')
-      script(type='text/javascript', src='/javascript/desktop.js')
+      script.
+          var userInfo = '!{userInfo}';
+          var logo = '!{logo}';
+          var webRoot = '!{webRoot}';
+          Ext.Loader.setPath({
+              'com.sys.desktop': '/app/sys/desktop/js'
+          });
+          //Ext.require('MyDesktop.App');
+          var myDesktopApp;
+          Ext.onReady(function () {
+              if (userInfo === 'undefined' || userInfo === '') {
+                  var dlg = Ext.create('com.sys.desktop.LoginWindow', {
+                      parent: this
+                  });
+                  dlg.show();
+              } else {
+                  myDesktopApp = new MyDesktop.App();
+              }
+              Ext.EventManager.onWindowResize(function (a, b) {
+                  var win = Ext.getCmp("loginWindow");
+                  if (win == undefined) {
+                      return;
+                  }
+                  win.center();
+              });
+          });
+
    body(oncontextmenu='self.event.returnValue=false', style='overflow: hidden;')
       img(border='0', src='/images/login_Background.jpg', width='100%', height='100%', style='position: absolute;left:0px;top:0px;z-index: -1')

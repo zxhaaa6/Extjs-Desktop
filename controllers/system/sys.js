@@ -1,13 +1,12 @@
 var config = require('../../config/config');
 
 exports.deskTop = function (req, res) {
-    var userInfo = {
-        name: 'admin',
-        password: '123'
-    };
+    var baseUrl = req.protocol + '://' + req.get('Host');
+    var userInfo = '';
     var logo = config.logo;
     var resParams = {
         title: 'firstExt',
+        webRoot: baseUrl,
         userInfo: userInfo,
         logo: logo
     };
