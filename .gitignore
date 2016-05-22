@@ -56,4 +56,4 @@ _tmp/
 logs/
 public/lib/
 public/images/
-model/initDatabase/
+model/initDatabase.js
