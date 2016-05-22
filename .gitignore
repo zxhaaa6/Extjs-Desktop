@@ -51,6 +51,7 @@ node_modules/
 .c9/
 
 # ignore others
+config/
 _tmp/
 logs/
 public/lib/
