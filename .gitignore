@@ -51,3 +51,5 @@ node_modules/
 .c9/
 _tmp/
 logs/
+public/lib/
+public/images/
