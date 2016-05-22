@@ -49,6 +49,8 @@ node_modules/
 .idea/
 .svn/
 .c9/
+
+# ignore others
 _tmp/
 logs/
 public/lib/

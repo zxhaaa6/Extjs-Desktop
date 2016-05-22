@@ -4,87 +4,100 @@
  * Module dependencies.
  */
 
+var async = require('async');
+var MongoClient = require('mongodb').MongoClient;
+var GlobalVarManager = require('../model/GlobalVarManager');
+var config = require('../config/config');
 var app = require('../app');
-var debug = require('debug')('firstExt:server');
 var http = require('http');
+var log = require('log4js').getLogger('firstExt');
 
-/**
- * Get port from environment and store in Express.
- */
+async.waterfall([
+    function (next) {
+        var url = 'mongodb://' + config.db.host + ':' + config.db.port + '/' + config.db.database;
+        MongoClient.connect(url, function (err, db) {
+            if (err) {
+                log.error('DB connection [' + url + '] failed.');
+                next(err);
+                return;
+            }
+            GlobalVarManager.setDatabase(db);
+            log.info('DB connection [' + url + '] established.');
+            next();
+        });
+    }
+], function (err) {
+    if (err) {
+        log.error('server start failed.');
+        throw err;
+    }
 
-var port = normalizePort(process.env.PORT || '4000');
-app.set('port', port);
+    app.set('host', config.host);
+    app.set('port', config.port);
+    var port = normalizePort(config.port);
 
-/**
- * Create HTTP server.
- */
+    var server = http.createServer(app);
+    server.listen(port);
+    server.on('error', onError);
+    server.on('listening', onListening);
 
-var server = http.createServer(app);
+    /**
+     * Normalize a port into a number, string, or false.
+     */
 
-/**
- * Listen on provided port, on all network interfaces.
- */
+    function normalizePort(val) {
+        var port = parseInt(val, 10);
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+        if (isNaN(port)) {
+            // named pipe
+            return val;
+        }
 
-/**
- * Normalize a port into a number, string, or false.
- */
+        if (port >= 0) {
+            // port number
+            return port;
+        }
 
-function normalizePort(val) {
-  var port = parseInt(val, 10);
+        return false;
+    }
 
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
+    /**
+     * Event listener for HTTP server "error" event.
+     */
 
-  if (port >= 0) {
-    // port number
-    return port;
-  }
+    function onError(error) {
+        if (error.syscall !== 'listen') {
+            throw error;
+        }
 
-  return false;
-}
+        var bind = typeof port === 'string'
+            ? 'Pipe ' + port
+            : 'Port ' + port;
 
-/**
- * Event listener for HTTP server "error" event.
- */
+        // handle specific listen errors with friendly messages
+        switch (error.code) {
+            case 'EACCES':
+                console.error(bind + ' requires elevated privileges');
+                process.exit(1);
+                break;
+            case 'EADDRINUSE':
+                console.error(bind + ' is already in use');
+                process.exit(1);
+                break;
+            default:
+                throw error;
+        }
+    }
 
-function onError(error) {
-  if (error.syscall !== 'listen') {
-    throw error;
-  }
+    /**
+     * Event listener for HTTP server "listening" event.
+     */
 
-  var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
-
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
-      process.exit(1);
-      break;
-    default:
-      throw error;
-  }
-}
-
-/**
- * Event listener for HTTP server "listening" event.
- */
-
-function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
-  debug('Listening on ' + bind);
-}
+    function onListening() {
+        var addr = server.address();
+        var bind = typeof addr === 'string'
+            ? 'pipe ' + addr
+            : 'port ' + addr.port;
+        log.info('Listening on ' + bind);
+    }
+});

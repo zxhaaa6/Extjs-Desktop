@@ -14,7 +14,10 @@
     "morgan": "~1.6.1",
     "serve-favicon": "~2.3.0",
     "formidable ": "1.0.17",
-    "async": "1.4.2",
-    "log4js": "0.6.27"
+    "async": "*",
+    "log4js": "0.6.27",
+    "mongodb": "2.1.19",
+    "underscore": "1.8.3",
+    "connect-mongo": "1.1.0"
   }
 }

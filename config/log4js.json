@@ -1,14 +1,22 @@
 {
-  "appenders": [
-    {
-      "type": "console"
-    },
-    {
-      "type": "dateFile",
-      "filename": "logs/MyTest",
-      "pattern": "-yyyy-MM-dd.log",
-      "alwaysIncludePattern": true,
-      "category": "MyTest"
-    }
-  ]
+	"appenders": [{
+		"type": "dateFile",
+		"filename": "logs/firstExt",
+		"pattern": "-yyyy-MM-dd.log",
+		"alwaysIncludePattern": true,
+		"layout": {
+			"type": "pattern",
+			"pattern": "%d|%p|%c|%m"
+		}
+	}, {
+		"type": "console",
+		"layout": {
+			"type": "pattern",
+			"pattern": "%[%d|%p|%c|%m%]"
+		}
+	}],
+	"replaceConsole": false,
+	"levels": {
+		"lancet-anesthesia": "INFO"
+	}
 }
