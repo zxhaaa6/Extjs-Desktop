@@ -8,8 +8,6 @@ var async = require('async');
 var MongoClient = require('mongodb').MongoClient;
 var GlobalVarManager = require('../model/GlobalVarManager');
 var config = require('../config/config');
-var app = require('../app');
-var http = require('http');
 var log = require('log4js').getLogger('firstExt');
 
 async.waterfall([
@@ -31,6 +29,8 @@ async.waterfall([
         log.error('server start failed.');
         throw err;
     }
+    var app = require('../app');
+    var http = require('http');
 
     app.set('host', config.host);
     app.set('port', config.port);

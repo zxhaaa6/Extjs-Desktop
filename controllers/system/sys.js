@@ -2,7 +2,7 @@ var config = require('../../config/config');
 
 exports.deskTop = function (req, res) {
     var baseUrl = req.protocol + '://' + req.get('Host');
-    var userInfo = '';
+    var userInfo = req.session.userInfo;
     var logo = config.logo;
     var resParams = {
         title: 'firstExt',

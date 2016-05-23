@@ -1,0 +1,67 @@
+/*登录窗口所需cls*/
+.login-tip-common {
+    font-family: 宋体;
+    font-size: 12px;
+    color: #888888;
+    text-align: left;
+    line-height: 26px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-right: 1px;
+    padding-left:24px;
+    background-position-x: 4px;
+    background-position-y: 5px;
+}
+.login-tip-background {
+    background-image: url(/images/common/desktop/login_tip_background.png) !important;
+    background-repeat:no-repeat;
+}
+.login-error-background {
+    background-image: url(/images/common/desktop/login_error_background.png) !important;
+    background-repeat:no-repeat;
+}
+.login-tip-cls {
+    background-image: url(/images/common/desktop/login_tip_input.png) !important;
+    background-repeat:no-repeat;
+
+}
+.login-error-cls {
+    background-image: url(/images/common/desktop/login_error_input.png) !important;
+    background-repeat:no-repeat;
+}
+.login-user-cls {
+    background-image: url(/images/common/desktop/login_user_input.png) !important;
+    background-repeat:no-repeat;
+    background-position-x:13px;
+    background-position-y:9px;
+    padding-left:50px;
+    font-size: 14px;
+    font-family: 微软雅黑;
+}
+.login-password-cls {
+    background-image: url(/images/common/desktop/login_password_input.png) !important;
+    background-repeat:no-repeat;
+    background-position-x:13px;
+    background-position-y:8px;
+    padding-left:50px;
+    font-size: 14px;
+    font-family: 微软雅黑;
+}
+.login-role-cls {
+    background-image: url(/images/common/desktop/login_role_input.png) !important;
+    background-repeat:no-repeat;
+    background-position-x:13px;
+    background-position-y:10px;
+    padding-left:50px;
+    font-size: 14px;
+    font-family: 微软雅黑;
+}
+.login-roletrigger-cls {
+    background-image: url(/images/common/desktop/login_role_trigger_input.png) !important;
+    height:37px;
+    background-repeat:no-repeat;
+    background-position-x:8px;
+    background-position-y:15px;
+    background-position: 0px 15px !important;
+}

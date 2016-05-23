@@ -2,6 +2,8 @@ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
@@ -34,11 +36,51 @@ app.use(logger('dev'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(session({
+    secret: '1_donot_kn0w.',
+    resave: true,
+    saveUninitialized: false,
+    store: new MongoStore({ url: 'mongodb://localhost/firstExt_session_store' })
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+
+app.response.sendResult = function(err, data, info) {
+    if (data) {
+        if (err) {
+            var jsonObj = {
+                errors: err.stack
+            };
+            if (info) jsonObj.info = info;
+            this.json(500, jsonObj);
+        } else {
+            var jsonObj = {
+                success: true,
+                data: data
+            };
+            if (info) jsonObj.info = info;
+            this.json(jsonObj);
+        }
+    } else {
+        if (err instanceof Error) {
+            var jsonObj = {
+                errors: err.stack
+            };
+            if (info) jsonObj.info = info;
+            this.json(500, jsonObj);
+        } else {
+            var jsonObj = {
+                success: true,
+                data: err
+            };
+            if (info) jsonObj.info = info;
+            this.json(jsonObj);
+        }
+    }
+};
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

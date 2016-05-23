@@ -48,7 +48,7 @@ Ext.define('com.sys.desktop.LoginForm', {
 				}),
 				listeners: {
 					blur: function(_this, _the, eOpts) {
-
+						me.selectRoleByName(_this, _this.up().getForm().findField('NAME').getValue().toLowerCase());
 					},
 					afterrender: function(_this, eOpts) {
 
@@ -79,10 +79,10 @@ Ext.define('com.sys.desktop.LoginForm', {
 				editable: false,
 				fieldCls: 'login-role-cls',
 				triggerCls: 'login-roletrigger-cls',
-				valueField: 'id',
-				displayField: 'name',
+				valueField: 'role',
+				displayField: 'role',
 				store: new Ext.data.Store({
-					fields: ['id', 'name', 'userName'],
+					fields: ['id', 'name', 'role'],
 					proxy: {
 						type: 'ajax',
 						url: '',
@@ -169,7 +169,7 @@ Ext.define('com.sys.desktop.LoginForm', {
 					listeners: {
 						render: function() { //渲染后添加click事件
 							Ext.fly(this.el).on('click', function() {
-
+								me.up("window").onLogin();
 							});
 						}
 					}
