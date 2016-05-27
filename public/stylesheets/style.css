@@ -1,8 +1,59 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+.firstModule-shortcut {
+  background-image: url(/images/theme1/aam/aam-large.png);
+}
+.firstModule-icon {
+  background-image: url(/images/theme1/mbs/mbs-small.png);
 }
 
-a {
-  color: #00B7FF;
+.filter {
+  background-image: url(/images/theme1/common/filter.png);
+}
+
+.su-request-large, .us-request-large {
+  background-image: url(/images/theme1/common/request-large.png);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.su-request-large-f, .us-request-large-f {
+  background-image: url(/images/theme1/common/request-large-f.png);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.surgery-mbs-large, .surgery-mds-large, .surgery-mas-large {
+  background-image: url(/images/theme1/common/surgery-large.png);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.surgery-mbs-large-f, .surgery-mds-large-f, .surgery-mas-large-f {
+  background-image: url(/images/theme1/common/surgery-large-f.png);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.ux-desktop-shortcut {
+  cursor: pointer;
+  text-align: center;
+  padding: 8px;
+  margin: 8px;
+  width: 76px;
+}
+.ux-desktop-shortcut-icon {
+  width: 60px;
+  height: 60px;
+  background-color: transparent;
+  background-repeat: no-repeat;
+}
+.ux-desktop-shortcut-text {
+  font: normal 10px tahoma,arial,verdana,sans-serif;
+  text-decoration: none;
+  padding-top: 5px;
+  color: white;
+  /*padding-left: 5px;*/
+  /*text-shadow: 1px 0px 0px #666666;*/
+  text-shadow: 0px 1px 2px rgba(0,0,0,0.7);
+  /*font-weight: bold;*/
+  font-family: Microsoft YaHei;
 }

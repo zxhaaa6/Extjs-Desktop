@@ -8,8 +8,9 @@ html
       link(rel='stylesheet', type='text/css', href='/lib/extjs/ux/grid/css/GridFilters.css')
       link(rel='stylesheet', type='text/css', href='/lib/extjs/ux/grid/css/RangeMenu.css')
       link(rel='stylesheet', type='text/css', href='/stylesheets/desktop.css')
-      script(type='text/javascript', src='/lib/extjs/ext-all.js')
-      // <script type="text/javascript" src="/lib/extjs/ext-all-debug-record.js"></script>
+      link(rel='stylesheet', type='text/css', href='/stylesheets/style.css')
+      //script(type='text/javascript', src='/lib/extjs/ext-all.js')
+      script(type='text/javascript', src='/lib/extjs/ext-all-debug-record.js')
       script(type='text/javascript', src='/lib/extjs/locale/ext-lang-zh_CN.js')
       script(type='text/javascript', src='/lib/extjs/ext-theme-neptune.js')
       script(type='text/javascript', src='/lib/DateTimePicker.js')
@@ -19,9 +20,12 @@ html
           var logo = '!{logo}';
           var webRoot = '!{webRoot}';
           Ext.Loader.setPath({
-              'com.sys.desktop': '/app/sys/desktop/js'
+              'com.sys.desktop': '/app/sys/desktop/js',
+              'com.firstModule': '/app/firstModule',
+              'MyDesktop': '/app/sys/desktop',
+              'Ext.ux.DataView': '/lib/extjs/ux/DataView/'
           });
-          //Ext.require('MyDesktop.App');
+          Ext.require('MyDesktop.App');
           var myDesktopApp;
           Ext.onReady(function () {
               if (userInfo === 'undefined' || userInfo === '') {
@@ -42,4 +46,4 @@ html
           });
 
    body(oncontextmenu='self.event.returnValue=false', style='overflow: hidden;')
-      img(border='0', src='/images/wallpapers/3.jpg', width='100%', height='100%', style='position: absolute;left:0px;top:0px;z-index: -1')
+      img(border='0', src='/images/wallpapers/login_background_1.jpg', width='100%', height='100%', style='position: absolute;left:0px;top:0px;z-index: -1')

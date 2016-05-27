@@ -65,3 +65,188 @@
     background-position-y:15px;
     background-position: 0px 15px !important;
 }
+
+/*系统logo*/
+#copyright {
+    position: absolute;
+    bottom: 40px;
+    right: 20px;
+    z-index: 15000;
+    /* IE 5-7 */
+    filter: alpha(opacity=70);
+    /* Netscape */
+    -moz-opacity: 0.7;
+    /* Safari 1.x */
+    -khtml-opacity: 0.7;
+    /* Good browsers */
+    opacity: 0.7;
+}
+#copyright div {
+    position: relative;
+    width: 223px;
+    height: 25px;
+    background-repeat: no-repeat;
+}
+/* The simple background image PNG does not work in IE6-8, but does in IE9 */
+.x-ie6 #copyright div,
+.x-ie7 #copyright div,
+.x-ie8 #copyright div {
+    background-image: none;
+    /*filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/copyright.png', sizingMethod='scale');*/
+}
+#company_logo{
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    z-index: 15000;
+
+    /* IE 5-7 */
+    filter: alpha(opacity=70);
+    /* Netscape */
+    -moz-opacity: 0.7;
+    /* Safari 1.x */
+    -khtml-opacity: 0.7;
+    /* Good browsers */
+    opacity: 0.7;
+
+}
+#company_logo div {
+    position: relative;
+    width: 538px;
+    height: 60px;
+    background-image: url(/images/common/system_logo.png);
+    background-repeat: no-repeat;
+}
+
+
+/*开始菜单按钮所需样式*/
+.ux-start-button-icon {
+    background-image: url(/images/common/start-menu-button.png) !important;
+    background-color: transparent;
+}
+.ux-start-button .x-btn-arrow {
+    background-image: none;
+    padding-right: 0px;
+}
+.bar-button-style{
+    background-color: #ddeef5;
+    background-image:none;
+    border-width: 0px;
+}
+.ux-taskbar {
+    padding-left: 4px !important;
+}
+.ux-desktop-black .ux-start-button {
+    height: 28px;
+    padding: 0;
+    display: block;
+}
+.ux-desktop-black .ux-start-button em {
+    margin-top: 5px;
+}
+.ux-desktop-black .ux-start-button .x-btn-inner {
+    color: black;
+    font-size:11px;
+    font-weight: bold;
+}
+.ux-desktop-black .ux-start-button {
+    background-image: -moz-linear-gradient(center top , #E4F3FF, #D9EDFF 48%, #C2D8F2 52%, #C6DCF6);
+    border-radius: 8px 8px 8px 8px;
+    border-color: #81A4D0;
+}
+
+
+/*开始菜单menu窗口所需css样式*/
+.ux-start-menu-toolbar .x-btn-inner {
+    text-align: left;
+}
+.bar-set-button-style{
+    background-color: #ddeef5;
+    background-image:none;
+    border-color: #9a9a9a;
+    height: 26px !important;
+    width:  82px !important;
+}
+.bar-set-button-style span{
+    height: 16px !important;
+}
+.ux-start-menu-toolbar {
+    padding: 4px !important;
+    background: #ddeef5;
+    padding-left: 15px !important;
+    /* top:318px !important;*/
+    height: 38px !important;
+}
+.ux-start-menu-toolbar div{
+    height: 26px !important;
+}
+.ux-start-menu-body {
+    background: #ddeef5;
+}
+.start-panel-body-style {
+    background-color: #ddeef5;
+    padding-top: 15px;
+}
+.start-panel-body-out-style {
+    top:43px !important;
+    height: 280px !important;
+}
+.panel-menu-item-style {
+    line-height: 30px;
+    padding-left: 10px;
+    font-size: 14px !important;
+    border-width: 0px !important;
+}
+
+
+/*工具条所需css样式*/
+div.ux-taskbar div.x-toolbar {
+    background: transparent none;
+    border: 0 none;
+    padding: 0;
+}
+.ux-desktop-windowbar .x-btn-inner .x-nbr .ux-desktop-windowbar .x-btn-icon-text-left button {
+    text-align: left !important;
+}
+.ux-desktop-black .ux-taskbar {
+    background: transparent url(/images/common/taskbar/black/taskbar-start-panel-bg.gif) repeat-x left top;
+    border-color: transparent;
+    /*height: 30px;*/
+}
+.ux-desktop-black .ux-taskbar .x-splitter {
+    background: transparent url(/images/common/taskbar/black/taskbar-split-h.gif) no-repeat scroll 0 -2px;
+}
+.ux-desktop-black .ux-taskbar .x-toolbar-text {
+    color: white !important;
+}
+.ux-desktop-black .ux-taskbar .x-btn-default-toolbar-small-over {
+    background-color: yellow;
+}
+.ux-desktop-black .ux-taskbar .x-btn-inner {
+    color: white;
+}
+.ux-desktop-black .ux-taskbar .x-btn-pressed .x-btn-inner, .ux-taskbar .x-btn-over .x-btn-inner {
+    color: black;
+}
+.ux-desktop-trayclock {
+    text-align: center;
+    vertical-align: middle;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+/*系统桌面css样式*/
+.ux-wallpaper {
+    background-color: #3d71b8;
+}
+.ux-wallpaper-tiled {
+    background-repeat: repeat;
+}
+.x-view-over .ux-desktop-shortcut-text {
+    text-decoration: underline;
+}
+
+.locked{
+    background-image: url(/images/locked.png) !important;
+    background-color: transparent;
+}

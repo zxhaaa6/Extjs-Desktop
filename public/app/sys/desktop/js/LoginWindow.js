@@ -29,6 +29,7 @@ Ext.define('com.sys.desktop.LoginWindow', {
     initComponent: function () {
         var me = this;
         me.items = [me.createLoginForm()];
+        me.on('afterrender', me.onKeyPress);
         me.callParent();
     },
 
@@ -68,6 +69,15 @@ Ext.define('com.sys.desktop.LoginWindow', {
                 }
             });
         }
+    },
+
+    onKeyPress: function(_this, eOpts) {
+        var loginWindow = _this.getEl();
+        loginWindow.on('keydown', function(e, t, eOpts) {
+            if (e.getKey() == 13) {
+                _this.onLogin();
+            }
+        });
     },
 
     setErrorValue: function (errMsg) {

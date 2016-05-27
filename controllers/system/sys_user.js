@@ -53,3 +53,8 @@ exports.login = function (req, res) {
         }
     });
 };
+
+exports.logout = function (req, res) {
+    req.session.destroy();
+    res.redirect('/');
+};
