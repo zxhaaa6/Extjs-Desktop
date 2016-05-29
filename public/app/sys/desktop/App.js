@@ -31,7 +31,7 @@ Ext.define('MyDesktop.App', {
                 id: 'a4947cc0321911e3bc42abf9027aeb3f',
                 name: 'firstModule',
                 iconCls: 'firstModule-shortcut',
-                module: 'mbs'
+                module: 'systemstatus'
             }]
         });
         var contextMenuItems = [{

@@ -46,7 +46,7 @@ Ext.define('com.sys.desktop.Desktop', {
 
     windowMenu: null,
 
-    initComponent: function() {
+    initComponent: function () {
         var me = this;
 
         me.windowMenu = new Ext.menu.Menu(me.createWindowMenu());
@@ -59,15 +59,21 @@ Ext.define('com.sys.desktop.Desktop', {
         me.contextMenu = new Ext.menu.Menu(me.createDesktopMenu());
 
         me.items = [{
-                xtype: 'wallpaper',
-                id: me.id + '_wallpaper'
-            },
+            xtype: 'wallpaper',
+            id: me.id + '_wallpaper'
+        },
             me.createDataView()
         ];
 
         me.callParent();
 
-        me.isMaxWindow = true;
+        me.isMaxWindow = false;
+        for (var i = 0; i < me.app.sysOptionItems.length; i++) {
+            if (me.app.sysOptionItems[i].name === '自动最大化') {
+                me.isMaxWindow = me.app.sysOptionItems[i].value === true;
+                break;
+            }
+        }
 
         me.shortcutsView = me.items.getAt(1);
         me.shortcutsView.on('itemclick', me.onShortcutItemClick, me);
@@ -79,7 +85,7 @@ Ext.define('com.sys.desktop.Desktop', {
         }
     },
 
-    afterRender: function() {
+    afterRender: function () {
         var me = this;
         me.callParent();
         me.el.on('contextmenu', me.onDesktopMenu, me);
@@ -88,7 +94,7 @@ Ext.define('com.sys.desktop.Desktop', {
     },
 
     //计算快捷方式所占用的空间，超过可见区域后进行折行显示
-    initShortcut: function() {
+    initShortcut: function () {
         var btnHeight = 80;
         var btnWidth = 64;
         var btnPadding = 4;
@@ -132,7 +138,7 @@ Ext.define('com.sys.desktop.Desktop', {
         }
     },
 
-    createDataView: function() {
+    createDataView: function () {
         var me = this;
         return {
             xtype: 'dataview',
@@ -157,7 +163,7 @@ Ext.define('com.sys.desktop.Desktop', {
         };
     },
 
-    createDesktopMenu: function() {
+    createDesktopMenu: function () {
         var me = this,
             ret = {
                 items: me.contextMenuItems || []
@@ -182,7 +188,7 @@ Ext.define('com.sys.desktop.Desktop', {
         return ret;
     },
 
-    createWindowMenu: function() {
+    createWindowMenu: function () {
         var me = this,
             items = [];
         items = [{
@@ -215,7 +221,7 @@ Ext.define('com.sys.desktop.Desktop', {
         };
     },
 
-    onDesktopMenu: function(e) {
+    onDesktopMenu: function (e) {
         var me = this,
             menu = me.contextMenu;
         e.stopEvent();
@@ -226,20 +232,20 @@ Ext.define('com.sys.desktop.Desktop', {
         menu.doConstrain();
     },
 
-    onDesktopMenuBeforeShow: function(menu) {
+    onDesktopMenuBeforeShow: function (menu) {
         var me = this,
             count = me.windows.getCount();
 
-        menu.items.each(function(item) {
+        menu.items.each(function (item) {
             var min = item.minWindows || 0;
             item.setDisabled(count < min);
         });
     },
 
-    onShortcutItemClick: function(dataView, record) {
+    onShortcutItemClick: function (dataView, record) {
         var me = this;
         localStorage.options = JSON.stringify({
-            isMaxWindow: me.isMaxWindow == 'true',
+            isMaxWindow: me.isMaxWindow,
             winSize: {
                 width: me.body.getWidth(),
                 height: me.body.getHeight()
@@ -253,14 +259,14 @@ Ext.define('com.sys.desktop.Desktop', {
         }
     },
 
-    onWindowClose: function(win) {
+    onWindowClose: function (win) {
         var me = this;
         me.windows.remove(win);
         me.taskbar.removeTaskButton(win.taskButton);
         me.updateActiveWindow();
     },
 
-    onWindowMenuBeforeShow: function(menu) {
+    onWindowMenuBeforeShow: function (menu) {
         var items = menu.items.items,
             win = menu.theWin;
         items[0].setDisabled(win.maximized !== true && win.hidden !== true); // Restore
@@ -268,20 +274,20 @@ Ext.define('com.sys.desktop.Desktop', {
         items[2].setDisabled(win.maximized === true || win.hidden === true); // Maximize
     },
 
-    onWindowMenuClose: function() {
+    onWindowMenuClose: function () {
         var me = this,
             win = me.windowMenu.theWin;
 
         win.close();
     },
 
-    onWindowMenuHide: function(menu) {
-        Ext.defer(function() {
+    onWindowMenuHide: function (menu) {
+        Ext.defer(function () {
             menu.theWin = null;
         }, 1);
     },
 
-    onWindowMenuMaximize: function() {
+    onWindowMenuMaximize: function () {
         var me = this,
             win = me.windowMenu.theWin;
 
@@ -289,30 +295,30 @@ Ext.define('com.sys.desktop.Desktop', {
         win.toFront();
     },
 
-    onWindowMenuMinimize: function() {
+    onWindowMenuMinimize: function () {
         var me = this,
             win = me.windowMenu.theWin;
 
         win.minimize();
     },
 
-    onWindowMenuRestore: function() {
+    onWindowMenuRestore: function () {
         var me = this,
             win = me.windowMenu.theWin;
 
         me.restoreWindow(win);
     },
 
-    getWallpaper: function() {
+    getWallpaper: function () {
         return this.wallpaper.wallpaper;
     },
 
-    setTickSize: function(xTickSize, yTickSize) {
+    setTickSize: function (xTickSize, yTickSize) {
         var me = this,
             xt = me.xTickSize = xTickSize,
             yt = me.yTickSize = (arguments.length > 1) ? yTickSize : xt;
 
-        me.windows.each(function(win) {
+        me.windows.each(function (win) {
             var dd = win.dd,
                 resizer = win.resizer;
             dd.xTickSize = xt;
@@ -322,18 +328,18 @@ Ext.define('com.sys.desktop.Desktop', {
         });
     },
 
-    setWallpaper: function(wallpaper, stretch) {
+    setWallpaper: function (wallpaper, stretch) {
 
         this.wallpaper.setWallpaper(wallpaper, stretch);
         return this;
     },
 
-    cascadeWindows: function() {
+    cascadeWindows: function () {
         var x = 0,
             y = 0,
             zmgr = this.getDesktopZIndexManager();
 
-        zmgr.eachBottomUp(function(win) {
+        zmgr.eachBottomUp(function (win) {
             if (win.isWindow && win.isVisible() && !win.maximized) {
                 win.setPosition(x, y);
                 x += 20;
@@ -342,7 +348,7 @@ Ext.define('com.sys.desktop.Desktop', {
         });
     },
 
-    createWindow: function(config, cls) {
+    createWindow: function (config, cls) {
         var me = this,
             win, cfg = Ext.applyIf(config || {}, {
                 stateful: false,
@@ -370,7 +376,7 @@ Ext.define('com.sys.desktop.Desktop', {
         });
 
         win.on({
-            boxready: function() {
+            boxready: function () {
                 win.dd.xTickSize = me.xTickSize;
                 win.dd.yTickSize = me.yTickSize;
 
@@ -382,12 +388,12 @@ Ext.define('com.sys.desktop.Desktop', {
             single: true
         });
 
-        win.doClose = function() {
+        win.doClose = function () {
             win.doClose = Ext.emptyFn;
             win.el.disableShadow();
             win.el.fadeOut({
                 listeners: {
-                    afteranimate: function() {
+                    afteranimate: function () {
                         win.destroy();
                     }
                 }
@@ -397,12 +403,12 @@ Ext.define('com.sys.desktop.Desktop', {
         return win;
     },
 
-    getActiveWindow: function() {
+    getActiveWindow: function () {
         var win = null,
             zmgr = this.getDesktopZIndexManager();
 
         if (zmgr) {
-            zmgr.eachTopDown(function(comp) {
+            zmgr.eachTopDown(function (comp) {
                 if (comp.isWindow && !comp.hidden) {
                     win = comp;
                     return false;
@@ -414,21 +420,21 @@ Ext.define('com.sys.desktop.Desktop', {
         return win;
     },
 
-    getDesktopZIndexManager: function() {
+    getDesktopZIndexManager: function () {
         var windows = this.windows;
         return (windows.getCount() && windows.getAt(0).zIndexManager) || null;
     },
 
-    getWindow: function(id) {
+    getWindow: function (id) {
         return this.windows.get(id);
     },
 
-    minimizeWindow: function(win) {
+    minimizeWindow: function (win) {
         win.minimized = true;
         win.hide();
     },
 
-    restoreWindow: function(win) {
+    restoreWindow: function (win) {
         if (win.isVisible()) {
             win.restore();
             win.toFront();
@@ -439,7 +445,7 @@ Ext.define('com.sys.desktop.Desktop', {
     },
     //平铺功能，将桌面上的所有活动窗口按两列n行显示出来
     //最大化或隐藏到下面的不显示
-    tileWindows: function() {
+    tileWindows: function () {
         var me = this,
             availWidth = me.body.getWidth(true),
             availheight = me.body.getHeight(true);
@@ -470,23 +476,23 @@ Ext.define('com.sys.desktop.Desktop', {
             }
         }
     },
-    getWinsCount: function(wins) {
+    getWinsCount: function (wins) {
         var count = 0;
-        wins.each(function(win) {
+        wins.each(function (win) {
             if (win.isVisible() && !win.maximized) {
                 count++;
             }
         });
         return count;
     },
-    tileWindows2: function() {
+    tileWindows2: function () {
         var me = this,
             availWidth = me.body.getWidth(true);
         var x = me.xTickSize,
             y = me.yTickSize,
             nextY = y;
 
-        me.windows.each(function(win) {
+        me.windows.each(function (win) {
             if (win.isVisible() && !win.maximized) {
                 var w = win.el.getWidth();
 
@@ -502,7 +508,7 @@ Ext.define('com.sys.desktop.Desktop', {
         });
     },
 
-    updateActiveWindow: function() {
+    updateActiveWindow: function () {
         var me = this,
             activeWindow = me.getActiveWindow(),
             last = me.lastActiveWindow;

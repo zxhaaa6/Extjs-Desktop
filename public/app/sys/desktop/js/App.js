@@ -35,7 +35,10 @@ Ext.define('com.sys.desktop.App', {
             Ext.QuickTips.init();
         }
 
-        me.sysOptionItems = null;
+        me.sysOptionItems = [{
+            name: '自动最大化',
+            value: false
+        }];
 
         me.modules = me.getModules();
         if (me.modules) {

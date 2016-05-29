@@ -6,7 +6,7 @@ Ext.define('com.firstModule.App', {
         'Ext.data.JsonStore'
     ],
 
-    id: 'mbs',
+    id: 'systemstatus',
     refreshRate: 500,
 
     init : function() {
@@ -26,10 +26,10 @@ Ext.define('com.firstModule.App', {
         };
     },
 
-    createNewWindow: function () {
+    createNewWindow: function (isMaxWindow) {
         var me = this,
             desktop = me.app.getDesktop();
-
+        me.isMaxWindow = isMaxWindow;
         me.cpuLoadData = [];
         me.cpuLoadStore = Ext.create('store.json', {
             fields: ['core1', 'core2', 'time']
@@ -58,6 +58,7 @@ Ext.define('com.firstModule.App', {
             animCollapse:false,
             constrainHeader:true,
             border: false,
+            maximized: isMaxWindow,
             layout: {
                 type: 'hbox',
                 align: 'stretch'
@@ -102,10 +103,10 @@ Ext.define('com.firstModule.App', {
         });
     },
 
-    createWindow : function() {
+    createWindow : function(isMaxWindow) {
         var win = this.app.getDesktop().getWindow(this.id);
         if (!win) {
-            win = this.createNewWindow();
+            win = this.createNewWindow(isMaxWindow);
         }
         return win;
     },
