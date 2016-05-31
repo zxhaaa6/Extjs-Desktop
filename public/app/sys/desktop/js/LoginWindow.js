@@ -12,7 +12,7 @@ Ext.define('com.sys.desktop.LoginWindow', {
     border: false,
     closable: false,
 
-    bodyStyle: "background-image:url('/images/login_Login_Background.png'); padding:74px 0px 0",
+    bodyStyle: "background-image:url('/images/loginWindow_Background.png'); padding:74px 0px 0",
     layout: 'fit',
     lableWidth: 50,
     draggable: false,
@@ -58,6 +58,15 @@ Ext.define('com.sys.desktop.LoginWindow', {
                         if (myDesktopApp === undefined) {
                             myDesktopApp = new MyDesktop.App();
                         }
+                        var expiry = new Date(new Date().getTime() + (1000 * 60 * 7 * 24 * 60));
+                        var cookieNameRoleObj = Ext.util.Cookies.get('names_roles');
+                        cookieNameRoleObj = cookieNameRoleObj === null ? {
+                            names: [],
+                            roles: []
+                        } : Ext.decode(cookieNameRoleObj);
+
+                        cookieNameRoleObj = me.getCookieNameRoleObj(values, cookieNameRoleObj);
+                        Ext.util.Cookies.set("names_roles", Ext.encode(cookieNameRoleObj), expiry);
                         me.close();
                     } else {
                         me.setErrorValue(action.result.data.msg);
@@ -71,13 +80,51 @@ Ext.define('com.sys.desktop.LoginWindow', {
         }
     },
 
-    onKeyPress: function(_this, eOpts) {
+    onKeyPress: function (_this, eOpts) {
         var loginWindow = _this.getEl();
-        loginWindow.on('keydown', function(e, t, eOpts) {
+        loginWindow.on('keydown', function (e, t, eOpts) {
             if (e.getKey() == 13) {
                 _this.onLogin();
             }
         });
+    },
+
+    getCookieNameRoleObj: function (values, cookieNameRoleObj) {
+        var me = this,
+            name = values.NAME,
+            remember_name = values.REMEMBER_NAME === 'true',
+            remember_role = true,
+            role = values.ROLE;
+        var currNameIndex = Ext.Array.indexOf(cookieNameRoleObj.names, name),
+            defaultRoleIndex = currNameIndex,
+            defaultRole = null;
+
+        if (remember_name) {
+            if (currNameIndex === -1) {
+                if (cookieNameRoleObj.names.length === me.maxCookieCount) {
+                    cookieNameRoleObj.names = Ext.Array.splice(cookieNameRoleObj.names, 1);
+                    cookieNameRoleObj.roles = Ext.Array.splice(cookieNameRoleObj.roles, 1);
+                }
+                cookieNameRoleObj.names[cookieNameRoleObj.names.length] = name;
+                defaultRoleIndex = cookieNameRoleObj.roles.length;
+            }
+            if (remember_role) {
+                defaultRole = role;
+            }
+            cookieNameRoleObj.roles[defaultRoleIndex] = defaultRole;
+            if (currNameIndex !== -1) {
+                if (currNameIndex !== cookieNameRoleObj.names.length - 1) {
+                    cookieNameRoleObj.names = cookieNameRoleObj.names.concat(cookieNameRoleObj.names.splice(currNameIndex, 1));
+                    cookieNameRoleObj.roles = cookieNameRoleObj.roles.concat(cookieNameRoleObj.roles.splice(currNameIndex, 1));
+                }
+            }
+        } else {
+            if (currNameIndex !== -1) {
+                cookieNameRoleObj.names.splice(currNameIndex, 1);
+                cookieNameRoleObj.roles.splice(currNameIndex, 1);
+            }
+        }
+        return cookieNameRoleObj;
     },
 
     setErrorValue: function (errMsg) {

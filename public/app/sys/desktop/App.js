@@ -7,20 +7,20 @@ Ext.define('MyDesktop.App', {
         'com.sys.desktop.Timing'
     ],
 
-    init: function() {
+    init: function () {
         var me = this;
         this.callParent();
         me.showMsgWin();
 
     },
 
-    getModules: function() {
+    getModules: function () {
         var modules = [];
         modules.push(new com.firstModule.App());
         return modules;
     },
 
-    getDesktopConfig: function() {
+    getDesktopConfig: function () {
         var me = this,
             ret = me.callParent(),
             currWallpaper = '/images/wallpapers/1.jpg';
@@ -51,7 +51,7 @@ Ext.define('MyDesktop.App', {
         });
     },
 
-    getStartConfig: function() {
+    getStartConfig: function () {
         var me = this,
             setItems = [{
                 text: '系统设置',
@@ -72,7 +72,7 @@ Ext.define('MyDesktop.App', {
         var vText = [
             '<div style="color:rgb(153, 153, 153); position:absolute; bottom:2px;top:5px">',
             '<span>',
-            '版本：' ,
+            '版本：',
             '</span>',
             '</div>'
         ].join('');
@@ -102,7 +102,7 @@ Ext.define('MyDesktop.App', {
         });
     },
 
-    getTaskbarConfig: function() {
+    getTaskbarConfig: function () {
         var ret = this.callParent();
         var setItems = [];
 
@@ -116,8 +116,8 @@ Ext.define('MyDesktop.App', {
         });
     },
 
-    onLogout: function() {
-        Ext.Msg.confirm('退出', '确认要退出吗？', function(btn) {
+    onLogout: function () {
+        Ext.Msg.confirm('退出', '确认要退出吗？', function (btn) {
             if (btn === 'yes') {
                 window.onbeforeunload = null;
                 window.location.href = webRoot + '/sys/logout/';
@@ -125,10 +125,20 @@ Ext.define('MyDesktop.App', {
         });
     },
 
-    onSettings: function() {
+    onSettings: function () {
 
     },
-    showMsgWin: function() {
+    showMsgWin: function () {
 
     }
 });
+
+function rembername(value) {
+    if (value == 0) {
+        document.getElementById('rembername').innerHTML = '<img onclick="rembername(1)" value=1 src=\'/images/login_Choose_1.png\'/>';
+        document.getElementById('rembername_label').innerHTML = '<span style="cursor: pointer;" onclick="rembername(1)">记住用户名</span>';
+    } else {
+        document.getElementById('rembername').innerHTML = '<img onclick="rembername(0)" value=0 src=\'/images/login_Choose_0.png\'/>';
+        document.getElementById('rembername_label').innerHTML = '<span style="cursor: pointer;" onclick="rembername(0)">记住用户名</span>';
+    }
+}
